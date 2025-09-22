@@ -11,7 +11,7 @@ import json
 import logging
 from dotenv import load_dotenv
 load_dotenv()
-# --- Configuration: Set Your Groq API Key ---
+# Configuration
 os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -185,9 +185,8 @@ def candidate_qa_node(state: InterviewState) -> Dict:
         "current_question": question
     }
 
-# -------------------------------
 # 4. Evaluation Logic
-# -------------------------------
+
 def evaluate_answer(state: InterviewState, next_correct: str, next_incorrect: str) -> Dict:
     """Evaluate the user's answer using LLM."""
     question = state["current_question"]
@@ -276,9 +275,9 @@ def evaluate_followup(state: InterviewState) -> Dict:
         "current_question": state["current_question"]
     }
 
-# -------------------------------
+
 # 5. Wrap-Up Node
-# -------------------------------
+
 def wrap_up_node(state: InterviewState) -> Dict:
     """Generate final feedback after 5 questions."""
     accuracy = state["correct_answers"] / max(1, state["total_questions"])
@@ -314,9 +313,9 @@ Return *only* the feedback text.
         "current_question": state["current_question"]
     }
 
-# -------------------------------
+
 # 6. Build LangGraph
-# -------------------------------
+
 workflow = StateGraph(InterviewState)
 workflow.set_entry_point("greeting")
 
